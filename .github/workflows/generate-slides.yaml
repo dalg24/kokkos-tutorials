@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install Packages
+    - name: Install packages
       run: >
         sudo apt-get update &&
         DEBIAN_FRONTEND=noninteractive
@@ -32,8 +32,20 @@ jobs:
         cd Content/${{ matrix.which }} &&
         make
 
-    - name: Upload Artifacts
+    - name: Upload PDFs as artifacts
+      id: deployment
       uses: actions/upload-artifact@v4
       with:
         name: Slides${{ matrix.which }}
-        path: Content/${{ matrix.which }}/*.pdf
+        path: Content/${{ matrix.which }}/**/*.pdf
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
