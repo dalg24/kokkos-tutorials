@@ -16,9 +16,9 @@ jobs:
     steps:
     - name: Install Packages
       run: >
-        apt-get update &&
+        sudo apt-get update &&
         DEBIAN_FRONTEND=noninteractive
-        apt-get install -y --no-install-recommends
+        sudo apt-get install -y --no-install-recommends
           make
           texlive
           texlive-latex-extra
