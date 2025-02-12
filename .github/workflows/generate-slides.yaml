@@ -19,9 +19,9 @@ jobs:
         sudo apt-get update &&
         DEBIAN_FRONTEND=noninteractive
         sudo apt-get install -y --no-install-recommends
-          make
-          texlive
-          texlive-latex-extra
+        make
+        texlive
+        texlive-latex-extra
 
     - name: Checkout source
       uses: actions/checkout@v4
