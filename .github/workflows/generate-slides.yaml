@@ -22,6 +22,7 @@ jobs:
         make
         texlive
         texlive-latex-extra
+        texlive-plain-generic
 
     - name: Checkout source
       uses: actions/checkout@v4
