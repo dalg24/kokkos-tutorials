@@ -1,0 +1,36 @@
+name: Generate slides from source
+
+on:
+  push:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        which: [Presentations, ReleaseBriefings]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Packages
+      run: >
+        apt-get update &&
+        DEBIAN_FRONTEND=noninteractive
+        apt-get install -y --no-install-recommends
+          make
+          texlive
+          texlive-latex-extra
+
+    - name: Build Slides
+      uses: actions/checkout@v4
+      run: >
+        cd Content/${{ matrix.which }} &&
+        make
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Slides${{ matrix.which }}
+        path: Content/${{ matrix.which }}/*.pdf
